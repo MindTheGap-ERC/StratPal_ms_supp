@@ -1,6 +1,8 @@
 library(StratPal)
 library(admtools)
 library(paleoTS)
+
+set.seed(42)
 adm_list = list()
 dist = paste0(seq(2, 12, by = 2), "km") # Positions in the carbonate platform, from the shore
 for (pos in dist){ # Conctruction of age-depth models from tie points for each position
