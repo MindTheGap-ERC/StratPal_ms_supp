@@ -3,6 +3,7 @@
 Supplementary code for the manuscript "StratPal: An R package for creating stratigraphic paleobiology modeling pipelines"
 
 <!-- badges: start -->
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14204077.svg)](https://doi.org/10.5281/zenodo.14204077)
 <!-- badges: end -->
 
 ## Authors
@@ -28,6 +29,12 @@ source("code/examples.R")
 ```
 
 This will generate all figures and save them in the folder `figs/`.
+
+## Citation
+
+To cite this repository, please use
+
+* Hohmann, N. (2024). Supplementary code for the manuscript "StratPal: An R package for creating stratigraphic paleobiology modeling pipelines" (v1.0.0). Zenodo. https://doi.org/10.5281/zenodo.14204077
 
 ## License
 
