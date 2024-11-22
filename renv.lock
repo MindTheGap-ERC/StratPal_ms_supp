@@ -22,7 +22,7 @@
     },
     "StratPal": {
       "Package": "StratPal",
-      "Version": "0.2.0",
+      "Version": "0.3.0",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -30,7 +30,7 @@
         "admtools",
         "paleoTS"
       ],
-      "Hash": "5068c31e6158513eec4149fcc623eb62"
+      "Hash": "41d8e58155b9bf02ea6d06817897d1cc"
     },
     "admtools": {
       "Package": "admtools",
