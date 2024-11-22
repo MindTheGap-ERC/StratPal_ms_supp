@@ -10,7 +10,7 @@ set.seed(42)
 #### Construct age-depth models ####
 adm_list = list()
 dist = paste0(seq(2, 12, by = 2), "km") # Positions in the carbonate platform, from the shore
-for (pos in dist){ # Conctruction of age-depth models from tie points for each position
+for (pos in dist){ # Consctruction of age-depth models from tie points for each position
   adm_list[[pos]] = tp_to_adm(t = scenarioA$t_myr,
                               h = scenarioA$h_m[, pos],
                               L_unit = "m",
@@ -90,6 +90,6 @@ p3(rate = rolo, min_time(adm12), max_time(adm12)) |>
   time_to_strat(adm12, destructive = TRUE) |>
   hist(breaks = seq(min_height(adm12), max_height(adm12), length.out = subdiv),
        xlab = "Stratigraphic position [m]", 
-       main = "Fossil abundance (platform top)")
+       main = "Fossil abundance (Proximal Slope)")
 
 dev.off()
