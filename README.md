@@ -2,18 +2,6 @@
 
 Supplementary code for the manuscript "StratPal: An R package for creating stratigraphic paleobiology modeling pipelines"
 
-<!-- badges: start -->
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14204077.svg)](https://doi.org/10.5281/zenodo.14204077)
-<!-- badges: end -->
-
-## Authors
-
-__Niklas Hohmann__  
-Utrecht University  
-email: n.h.hohmann [at] uu.nl  
-Web page: [uu.nl/staff/NHohmann](https://www.uu.nl/staff/NHHohmann)  
-Orcid: [0000-0003-1559-1838](https://orcid.org/0000-0003-1559-1838)
-
 ## Usage
 
 Open the file "StratPal_ms_supp.Rproj" in the RStudion IDE. This will set all paths correctly, and install the `renv` package (if not already installed). Then, run
@@ -29,12 +17,6 @@ source("code/examples.R")
 ```
 
 This will generate all figures and save them in the folder `figs/`.
-
-## Citation
-
-To cite this repository, please use
-
-* Hohmann, N. (2024). Supplementary code for the manuscript "StratPal: An R package for creating stratigraphic paleobiology modeling pipelines" (v1.0.0). Zenodo. https://doi.org/10.5281/zenodo.14204077
 
 ## License
 
