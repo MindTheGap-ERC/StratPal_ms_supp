@@ -75,7 +75,7 @@ dev.off()
 #### Figure 5 ####
 # effect of water depth on fossil abundance
 pdf(file = "figs/fig5.pdf")
-par(mfrow = c(1,2))
+par(mfrow = c(2,2))
 gc = approxfun(scenarioA$t_myr, scenarioA$wd_m[,"12km"])
 niche = snd_niche(opt = 100, tol = 30, cutoff_val = 0) # define niche with optimum at 100 m
 plot(scenarioA$t_myr, gc(scenarioA$t_myr),
@@ -84,6 +84,24 @@ plot(scenarioA$t_myr, gc(scenarioA$t_myr),
      xlab = "Time [Myr]",
      ylab = "Water depth [m]",
      main = "Water Depth on the Proximal Slope")
+
+plot(x = scenarioA$t_myr, 
+     y = niche(gc(scenarioA$t_myr)),
+     type = "l",
+     lwd = 3,
+     xlab = "Time [Myr]",
+     ylab = "Recovery probability",
+     main = "Niche in Time Domain")
+
+r = list(t = scenarioA$t_myr, y = niche(gc(scenarioA$t_myr)))  |> time_to_strat(adm12)
+
+plot(x = r$h[!is.na(r$h)],
+     y = r$y[!is.na(r$h)],
+     type = "l",
+     lwd = 3,
+     xlab = "Stratigraphic position [m]",
+     ylab = "Recovery probability",
+     main = "Niche in Stratigraphic Domain")
 
 p3(rate = rolo, min_time(adm12), max_time(adm12)) |>
   apply_niche(niche, gc) |>
