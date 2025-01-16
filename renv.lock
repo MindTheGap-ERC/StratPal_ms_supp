@@ -45,9 +45,9 @@
     },
     "ape": {
       "Package": "ape",
-      "Version": "5.8",
+      "Version": "5.8-1",
       "Source": "Repository",
-      "Repository": "RSPM",
+      "Repository": "CRAN",
       "Requirements": [
         "R",
         "Rcpp",
@@ -60,7 +60,7 @@
         "stats",
         "utils"
       ],
-      "Hash": "16b5ff4dff0ead9ea955f62f794b1535"
+      "Hash": "54e5b03e928da23e75dc5bb633648d27"
     },
     "codetools": {
       "Package": "codetools",
