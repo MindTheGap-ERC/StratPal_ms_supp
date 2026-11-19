@@ -9,8 +9,10 @@ set.seed(42)
 
 #### Figure output settings ####
 # sized for print in a thesis: 116 mm print width, 600 dpi PNG plus vector PDF.
-# Base font size is 8 pt, so axis labels and tick labels are 8 pt;
-# other text keeps R's default proportions (e.g. titles 1.2 x 8 pt = 9.6 pt)
+# Base font size is 8 pt. Text sizes:
+#   panel titles 9 pt, panel letters (A, B, ...) 10 pt bold,
+#   axis titles 8 pt, tick labels 7 pt
+base_pt = 8
 mm_to_in = 1 / 25.4
 fig_width_mm = 116
 png_res = 600 # dpi
@@ -24,15 +26,31 @@ open_fig = function(file, height_mm, mfrow){
       height = height_mm,
       units = "mm",
       res = png_res,
-      pointsize = 8,
+      pointsize = base_pt,
       family = "sans",
       type = "cairo")
   dev.control(displaylist = "enable") # needed to copy the figure to pdf
+  fig_state$panel = 0
   par(mfrow = mfrow,
       cex = 1, # prevent automatic font shrinking in multi-panel layouts
+      cex.main = 9 / base_pt, # panel titles 9 pt
+      cex.lab = 8 / base_pt, # axis titles 8 pt
+      cex.axis = 7 / base_pt, # tick labels 7 pt
       mar = c(3.1, 3.1, 3.3, 0.6), # top margin fits two-line titles
       mgp = c(2, 0.6, 0),
       tcl = -0.3)
+}
+panel_letter = function(){
+  # add the next panel letter (A, B, ...) in 10 pt bold to the top left corner
+  # of the current panel. Call after plotting the panel.
+  fig_state$panel = fig_state$panel + 1
+  mtext(LETTERS[fig_state$panel],
+        side = 3,
+        line = 2.1,
+        adj = 0,
+        at = grconvertX(0.01, from = "nfc", to = "user"),
+        cex = 10 / base_pt,
+        font = 2)
 }
 close_fig = function(){
   # copy the finished figure to pdf, so both files show identical (random) data
@@ -41,7 +59,7 @@ close_fig = function(){
            filename = paste0(fig_state$file, ".pdf"),
            width = fig_width_mm * mm_to_in,
            height = fig_state$height_mm * mm_to_in,
-           pointsize = 8,
+           pointsize = base_pt,
            family = "sans")
   dev.off() # close pdf
   dev.off() # close png
@@ -67,10 +85,12 @@ plot(adm2, lty_destr = 0, lwd_acc = 3)
 T_axis_lab()
 L_axis_lab()
 title("Platform Top")
+panel_letter()
 plot(adm12, lty_destr = 0, lwd_acc = 3)
 T_axis_lab()
 L_axis_lab()
 title("Proximal Slope")
+panel_letter()
 close_fig()
 
 #### Figure 3 ####
@@ -85,12 +105,14 @@ p3(rate = rolo, min_time(adm2), max_time(adm2)) |>
   hist(breaks = seq(min_height(adm2), max_height(adm2), length.out = subdiv),
        xlab = "Stratigraphic position [m]", 
        main = "Last Occurrences\n(Platform Top)")
+panel_letter()
 
 p3(rate = rolo, from = min_time(adm12), to = max_time(adm12)) |>
   time_to_strat(adm12, destructive = FALSE) |>
   hist(xlab = "Stratigraphic position [m]",
        main = "Last Occurrences\n(Proximal Slope)",
        breaks = seq(min_height(adm12), max_height(adm12), length.out = subdiv))
+panel_letter()
 close_fig()
 
 #### Figure 4 ####
@@ -101,12 +123,14 @@ p3(rate = rolo, min_time(adm2), max_time(adm2)) |>
   hist(breaks = seq(min_height(adm2), max_height(adm2), length.out = subdiv),
        xlab = "Stratigraphic position [m]", 
        main = "Fossil Abundance\n(Platform Top)")
+panel_letter()
 
 p3(rate = rolo, from = min_time(adm12), to = max_time(adm12)) |>
   time_to_strat(adm12, destructive = TRUE) |>
   hist(xlab = "Stratigraphic position [m]",
        main = "Fossil Abundance\n(Proximal Slope)",
        breaks = seq(min_height(adm12), max_height(adm12), length.out = subdiv))
+panel_letter()
 close_fig()
 
 #### Figure 5 ####
@@ -120,6 +144,7 @@ plot(scenarioA$t_myr, gc(scenarioA$t_myr),
      xlab = "Time [Myr]",
      ylab = "Water depth [m]",
      main = "Water Depth\n(Proximal Slope)")
+panel_letter()
 
 plot(x = scenarioA$t_myr, 
      y = niche(gc(scenarioA$t_myr)),
@@ -128,6 +153,7 @@ plot(x = scenarioA$t_myr,
      xlab = "Time [Myr]",
      ylab = "Recovery probability",
      main = "Niche in\nTime Domain")
+panel_letter()
 
 r = list(t = scenarioA$t_myr, y = niche(gc(scenarioA$t_myr)))  |> time_to_strat(adm12)
 
@@ -138,6 +164,7 @@ plot(x = r$h[!is.na(r$h)],
      xlab = "Stratigraphic position [m]",
      ylab = "Recovery probability",
      main = "Niche in\nStratigraphic Domain")
+panel_letter()
 
 p3(rate = rolo, min_time(adm12), max_time(adm12)) |>
   apply_niche(niche, gc) |>
@@ -145,5 +172,6 @@ p3(rate = rolo, min_time(adm12), max_time(adm12)) |>
   hist(breaks = seq(min_height(adm12), max_height(adm12), length.out = subdiv),
        xlab = "Stratigraphic position [m]", 
        main = "Fossil Abundance\n(Proximal Slope)")
+panel_letter()
 
 close_fig()
