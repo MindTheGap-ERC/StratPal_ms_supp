@@ -8,40 +8,43 @@ library(paleoTS)
 set.seed(42)
 
 #### Figure output settings ####
-# sized for print in a dissertation: 116 mm text width
+# sized for print in a thesis: 116 mm print width, 600 dpi PNG plus vector PDF.
+# Base font size is 8 pt, so axis labels and tick labels are 8 pt;
+# other text keeps R's default proportions (e.g. titles 1.2 x 8 pt = 9.6 pt)
 mm_to_in = 1 / 25.4
 fig_width_mm = 116
 png_res = 600 # dpi
+fig_state = new.env() # remembers the open figure between open_fig and close_fig
 open_fig = function(file, height_mm, mfrow){
-  # file: path without extension, a .pdf and a .png version are written
-  fig_info <<- list(file = file, height_mm = height_mm)
-  # cairo_pdf embeds fonts, which print shops require
-  cairo_pdf(filename = paste0(file, ".pdf"),
-            width = fig_width_mm * mm_to_in,
-            height = height_mm * mm_to_in,
-            pointsize = 8,
-            family = "sans")
-  dev.control(displaylist = "enable") # needed to copy the figure to png
+  # file: output path without extension, a .png and a .pdf version are written
+  fig_state$file = file
+  fig_state$height_mm = height_mm
+  png(filename = paste0(file, ".png"),
+      width = fig_width_mm,
+      height = height_mm,
+      units = "mm",
+      res = png_res,
+      pointsize = 8,
+      family = "sans",
+      type = "cairo")
+  dev.control(displaylist = "enable") # needed to copy the figure to pdf
   par(mfrow = mfrow,
       cex = 1, # prevent automatic font shrinking in multi-panel layouts
-      mar = c(3.1, 3.1, 2.6, 0.6),
+      mar = c(3.1, 3.1, 3.3, 0.6), # top margin fits two-line titles
       mgp = c(2, 0.6, 0),
-      tcl = -0.3,
-      cex.main = 1)
+      tcl = -0.3)
 }
 close_fig = function(){
-  # copy the finished figure to png, so both files show identical (random) data
-  dev.copy(png,
-           filename = paste0(fig_info$file, ".png"),
+  # copy the finished figure to pdf, so both files show identical (random) data
+  # cairo_pdf embeds fonts, which print shops require
+  dev.copy(cairo_pdf,
+           filename = paste0(fig_state$file, ".pdf"),
            width = fig_width_mm * mm_to_in,
-           height = fig_info$height_mm * mm_to_in,
-           units = "in",
-           res = png_res,
+           height = fig_state$height_mm * mm_to_in,
            pointsize = 8,
-           family = "sans",
-           type = "cairo")
-  dev.off() # close png
+           family = "sans")
   dev.off() # close pdf
+  dev.off() # close png
 }
 
 #### Construct age-depth models ####
